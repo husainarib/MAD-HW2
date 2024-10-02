@@ -24,8 +24,8 @@ class _CalculatorState extends State<Calculator> {
   String operator = '';
   double firstOperand = 0;
   double secondOperand = 0;
-  
-  //method to show which number was pressed
+  String lastInput = '';
+
   void numberPressed(String number) {
     setState(() {
       if (displayText == '0') {
@@ -36,16 +36,15 @@ class _CalculatorState extends State<Calculator> {
     });
   }
 
-  //method to show which operator was pressed
   void operatorPressed(String op) {
     setState(() {
+      lastInput = displayText;
       firstOperand = double.parse(displayText);
       operator = op;
       displayText = '';
     });
   }
 
-  //method to calculate
   void calculate() {
     setState(() {
       secondOperand = double.parse(displayText);
@@ -63,11 +62,12 @@ class _CalculatorState extends State<Calculator> {
           if (secondOperand != 0) {
             result = (firstOperand / secondOperand).toString();
           } else {
-            result = 'ERROR!';
+            result = 'Error';
           }
           break;
       }
       displayText = result;
+      lastInput = '$firstOperand $operator $secondOperand';
     });
   }
 
@@ -78,37 +78,11 @@ class _CalculatorState extends State<Calculator> {
       secondOperand = 0;
       operator = '';
       result = '0';
+      lastInput = '';
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Calculator'),
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          //TODO implement children
-        ],
-      ),
-    );
+    //TO implement
   }
-
-  Widget numberButton(String number) {
-    //TODO implement method
-  }
-
-  Widget operatorButton(String op) {
-    //TODO implement method
-  }
-
-  Widget deleteButton() {
-    //TODO implement method
-  }
-
-  Widget equalButton() {
-    //TODO implement method
-  }
-}
