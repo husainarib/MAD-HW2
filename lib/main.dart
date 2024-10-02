@@ -22,28 +22,62 @@ class _CalculatorState extends State<Calculator> {
   String displayText = '0';
   String result = '0';
   String operator = '';
-
+  double firstOperand = 0;
+  double secondOperand = 0;
+  
+  //method to show which number was pressed
   void numberPressed(String number) {
     setState(() {
-      //TODO implement method
+      if (displayText == '0') {
+        displayText = number;
+      } else {
+        displayText += number;
+      }
     });
   }
 
+  //method to show which operator was pressed
   void operatorPressed(String op) {
     setState(() {
-      //TODO implement method
+      firstOperand = double.parse(displayText);
+      operator = op;
+      displayText = '';
     });
   }
 
+  //method to calculate
   void calculate() {
     setState(() {
-      //TODO implement method
+      secondOperand = double.parse(displayText);
+      switch (operator) {
+        case '+':
+          result = (firstOperand + secondOperand).toString();
+          break;
+        case '-':
+          result = (firstOperand - secondOperand).toString();
+          break;
+        case '*':
+          result = (firstOperand * secondOperand).toString();
+          break;
+        case '/':
+          if (secondOperand != 0) {
+            result = (firstOperand / secondOperand).toString();
+          } else {
+            result = 'ERROR!';
+          }
+          break;
+      }
+      displayText = result;
     });
   }
 
   void clear() {
     setState(() {
-      //TODO implement method
+      displayText = '0';
+      firstOperand = 0;
+      secondOperand = 0;
+      operator = '';
+      result = '0';
     });
   }
 
