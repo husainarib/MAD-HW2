@@ -104,7 +104,8 @@ class _CalculatorState extends State<Calculator> {
             children: [
               Container(
                 alignment: Alignment.centerRight,
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 24),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 24),
                 decoration: BoxDecoration(
                   color: Colors.green,
                   borderRadius: BorderRadius.circular(10),
@@ -112,10 +113,10 @@ class _CalculatorState extends State<Calculator> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    //last input text
+                    //last input
                     Text(
                       lastInput,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 20,
                         color: Colors.white,
                       ),
@@ -132,8 +133,16 @@ class _CalculatorState extends State<Calculator> {
                   ],
                 ),
               ),
-              SizedBox(height: 10),
-              //TODO Numbers and Operators Buttons
+              const SizedBox(height: 10),
+              // Numbers and Operators Buttons
+              Column(
+                children: [
+                  buildButtonRow(['7', '8', '9', '/']),
+                  buildButtonRow(['4', '5', '6', '*']),
+                  buildButtonRow(['1', '2', '3', '-']),
+                  buildButtonRow(['0', 'C', '=', '+']),
+                ],
+              ),
             ],
           ),
         ),
@@ -141,36 +150,52 @@ class _CalculatorState extends State<Calculator> {
     );
   }
 
-  Widget buildButton(String buttonText) {
-    Color buttonColor = Colors.blueAccent;
-    if (buttonText == 'C') {
+//calculator number pad
+  Widget buildButtonRow(List<String> buttons) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: buttons.map((butonInput) {
+        return Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(4),
+            child: buildButton(butonInput),
+          ),
+        );
+      }).toList(),
+    );
+  }
+
+//button  
+  Widget buildButton(String butonInput) {
+    Color buttonColor = const Color.fromARGB(255, 59, 137, 61);
+    if (butonInput == 'C') {
       buttonColor = Colors.redAccent;
-    } else if (buttonText == '=') {
-      buttonColor = Colors.green;
+    } else if (butonInput == '=') {
+      buttonColor = Colors.blueAccent;
     }
 
-    return GestureDetector(
+    return InkWell(
       onTap: () {
-        if (buttonText == 'C') {
+        if (butonInput == 'C') {
           clear();
-        } else if (buttonText == '=') {
+        } else if (butonInput == '=') {
           calculate();
-        } else if ('+-*/'.contains(buttonText)) {
-          operatorPressed(buttonText);
+        } else if ('+-*/'.contains(butonInput)) {
+          operatorPressed(butonInput);
         } else {
-          numberPressed(buttonText);
+          numberPressed(butonInput);
         }
       },
       child: Container(
-        height:50,
+        height: 60,
         decoration: BoxDecoration(
           color: buttonColor,
           borderRadius: BorderRadius.circular(10),
         ),
         child: Center(
           child: Text(
-            buttonText,
-            style: TextStyle(
+            butonInput,
+            style: const TextStyle(
               fontSize: 24,
               color: Colors.white,
               fontWeight: FontWeight.bold,
